@@ -21,7 +21,7 @@ body {
 
 .memory-card {
   width: calc(25% - 10px);
-  height: calc(33.% - 10px);
+  height: calc(20% - 10px);
   margin: 5px;
   position: relative;
   transform: scale(1);
@@ -45,7 +45,7 @@ body {
   padding: 20px;
   position: absolute;
   border-radius: 5px;
-  background: #1C7CCC;
+  background: #55a5e8;
   backface-visibility: hidden;
 }
 
