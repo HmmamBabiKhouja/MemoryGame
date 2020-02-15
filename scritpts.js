@@ -1,62 +1,60 @@
-const cards = document.querySelectorAll(".memory-card");
+const cards = document.querySelectorAll(".memory-card")
 
-let firstClicked=false;
-let lockBoard=false;
+let blockBoard=false;
+let firstCardClicked=false;
 let firstCard, secondCard;
 
-function flipCard() {
-    if(lockBoard) return;
+
+function flipCard(){
+    if(blockBoard) return;
     if(this===firstCard) return;
 
     this.classList.add("flip");
 
-    if(!firstClicked){
-    // first card
-        firstClicked=true;
+    if(!firstCardClicked){
         firstCard=this;
-        return 
+        firstCardClicked=true;
+        return;
     }
-    // second card    
-        secondCard=this;
-    
-        checkForMatch();
+
+    secondCard=this;
+
+    checkForMatch();
+}
+
+function checkForMatch(){
+    let isMatch = firstCard.dataset.logo === secondCard.dataset.logo;
+    isMatch? freezeCards() : unflipCards();
 }
 
 function resetBoard(){
-    [firstClicked,lockBoard]=[false,false];
+    [blockBoard, firstCardClicked]=[false,false];
     [firstCard,secondCard]=[null,null];
 }
 
-function checkForMatch() {
-    let isMatch=firstCard.dataset.framework === secondCard.dataset.framework;
-    
-    isMatch? disableCards():unflipCards();
-}
+function freezeCards(){
+    firstCard.removeEventListener('click', flipCard);
+    secondCard.removeEventListener('click', flipCard);
 
-function disableCards(){
-    // match
-    firstCard.removeEventListener("click", flipCard);
-    secondCard.removeEventListener("click", flipCard);
     resetBoard();
 }
 
-function unflipCards() {
-    // not a match se get them back to their face
-    lockBoard =true;
+function unflipCards(){
+    blockBoard=true;
+
     setTimeout(() => {
         firstCard.classList.remove("flip");
         secondCard.classList.remove("flip");
-
         resetBoard();
     }, 1500);
 }
 
-(function sheffle(){
-    cards.forEach(card =>{
-        let randomPos=Math.floor(Math.random()*12);
-        card.style.order=randomPos;
-    })
+(function shuffle(){
+    cards.forEach(card => {
+        let randomNum=Math.floor(Math.random()*cards.length);
+        card.style.order=randomNum});
 })();
+
 
 cards.forEach(card => card.addEventListener("click", flipCard));
 
